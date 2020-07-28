@@ -77,6 +77,9 @@ function addEmployee(){
     case "Intern":
         addIntern();
         break;
+    case "I do not want to add any more team members":
+        render(teamMembers);
+        break;
     }
   });
 }
