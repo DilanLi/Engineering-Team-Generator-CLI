@@ -4,6 +4,7 @@ const fs = require("fs");
 const templatesDir = path.resolve(__dirname, "../templates");
 
 const render = employees => {
+  console.log("employees in the render: ", employees)
   const html = [];
 
   html.push(employees
@@ -24,6 +25,7 @@ const render = employees => {
 };
 
 const renderManager = manager => {
+  console.log("render manager: ", manager);
   let template = fs.readFileSync(path.resolve(templatesDir, "manager.html"), "utf8");
   template = replacePlaceholders(template, "name", manager.getName());
   template = replacePlaceholders(template, "role", manager.getRole());
@@ -55,6 +57,8 @@ const renderIntern = intern => {
 
 const renderMain = html => {
   const template = fs.readFileSync(path.resolve(templatesDir, "main.html"), "utf8");
+  console.log("template: ", template);
+  console.log("html: ", html);
   return replacePlaceholders(template, "team", html);
 };
 

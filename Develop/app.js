@@ -78,7 +78,12 @@ function addEmployee(){
         addIntern();
         break;
     case "I do not want to add any more team members":
-        render(teamMembers);
+        console.log(teamMembers);
+        fs.writeFile("output.html", render(teamMembers), function(err){
+            if (err) {
+                return console.log(err);
+              }            
+        });
         break;
     }
   });
@@ -150,7 +155,6 @@ function addIntern(){
       const intern = new Intern(response.name, response.id, response.email, response.school);
       teamMembers.push(intern);
       console.log("Intern successfully added!");
-      console.log(teamMembers)
       addEmployee();
     });
 
