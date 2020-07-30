@@ -29,14 +29,25 @@ inquirer
       name: "name"
     },
     {
-      type: "input",
+      type: "number",
       message: "What is your manager's id?",
       name: "id"
     },
     {
       type: "input",
       message: "What is your manager's email?",
-      name: "email"
+      name: "email",
+      validate: function (email) {
+  
+        valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+
+        if (valid) {
+            return true;
+        } else {
+            console.log(".  Please enter a valid email")
+            return false;
+        }
+    }
     },
     {
       type: "input",
@@ -107,7 +118,18 @@ function addEngineer(){
         {
           type: "input",
           message: "What is your engineer's email?",
-          name: "email"
+          name: "email",
+          validate: function (email) {
+  
+            valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+    
+            if (valid) {
+                return true;
+            } else {
+                console.log(".  Please enter a valid email")
+                return false;
+            }
+        }    
         },
         {
           type: "input",
@@ -142,7 +164,19 @@ function addIntern(){
       {
         type: "input",
         message: "What is your intern's email?",
-        name: "email"
+        name: "email",
+        validate: function (email) {
+  
+          valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+  
+          if (valid) {
+              return true;
+          } else {
+              console.log(".  Please enter a valid email")
+              return false;
+          }
+      }
+  
       },
       {
         type: "input",

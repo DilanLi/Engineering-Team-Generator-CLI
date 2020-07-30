@@ -6,3 +6,6 @@ node_modules/
 
 # Ignore Assets folder
 Assets/
+
+# Ignore .vscode 
+.vscode
