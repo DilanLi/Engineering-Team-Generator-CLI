@@ -16,6 +16,7 @@ const render = require("./lib/htmlRenderer");
 //start by creating a deafault team manager
 createManager();
 const teamMembers = [];
+const idNumbers = [];
 
 
 //function to create manager
@@ -29,10 +30,20 @@ inquirer
       name: "name"
     },
     {
-      type: "number",
+      type: "input",
       message: "What is your manager's id?",
       name: "id"
-    },
+    //   validate: function (answer) {
+    //       if (typeof answer === number) {
+    //         console.log("is number");
+    //         return true;
+    //     } else {
+    //         console.log("Please make sure your id is a number.")
+    //         return false;
+    //     }
+    // }
+  },
+
     {
       type: "input",
       message: "What is your manager's email?",
@@ -44,11 +55,12 @@ inquirer
         if (valid) {
             return true;
         } else {
-            console.log(".  Please enter a valid email")
+            console.log("  Please enter a valid email")
             return false;
         }
     }
     },
+    
     {
       type: "input",
       message: "What is your manager's office number?",
@@ -59,6 +71,7 @@ inquirer
 .then( response => {
     const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
     teamMembers.push(manager);
+    idNumbers.push(response.id);
     addEmployee();
   });
 
@@ -114,6 +127,18 @@ function addEngineer(){
           type: "input",
           message: "What is your engineer's id?",
           name: "id"
+        //   validate: function (userIdNumber) {    
+        //     if (typeof userIdNumber === number) {
+        //       for (i = 0; i < idNumbers.length; i++){
+        //         id !== idNumbers[i];
+        //         return true;
+        //       }
+        //     } else {
+        //         console.log("Please make sure your id is a number and has not been taken already.")
+        //         return false;
+        //     }
+        // }
+    
         },
         {
           type: "input",
@@ -126,7 +151,7 @@ function addEngineer(){
             if (valid) {
                 return true;
             } else {
-                console.log(".  Please enter a valid email")
+                console.log("  Please enter a valid email")
                 return false;
             }
         }    
