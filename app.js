@@ -6,17 +6,18 @@ const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+// const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+const render = require("./lib/newRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
 
-//start by creating a deafault team manager
+//Call deafault team manager function
 createManager();
+//array that will hold all employee objects
 let teamMembers = [];
-const idNumbers = [];
+//object that will hold all employee id numbers, this will be used to check the uniqueness of employee id's
+const idNumbers = {};
 
 
 //function to create manager
@@ -33,25 +34,14 @@ inquirer
       type: "input",
       message: "What is your manager's id?",
       name: "id"
-    //   validate: function (answer) {
-    //       if (typeof answer === number) {
-    //         console.log("is number");
-    //         return true;
-    //     } else {
-    //         console.log("Please make sure your id is a number.")
-    //         return false;
-    //     }
-    // }
   },
-
     {
       type: "input",
       message: "What is your manager's email?",
       name: "email",
+      //email validation
       validate: function (email) {
-  
         valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-
         if (valid) {
             return true;
         } else {
@@ -60,18 +50,17 @@ inquirer
         }
     }
     },
-
     {
       type: "input",
       message: "What is your manager's office number?",
       name: "officeNumber"
     }
   ])
-// and to create objects for each team member (using the correct classes as blueprints!)
 .then( response => {
     const manager = new Manager(response.name, response.id, response.email, response.officeNumber);
+    //push the new manager object to the teamMembers array
     teamMembers.push(manager);
-    idNumbers.push(response.id);
+    idNumbers[response.id]=true;
     addEmployee();
   });
 
@@ -92,7 +81,7 @@ function addEmployee(){
       ]
     }
   ])
-// and to create objects for each team member (using the correct classes as blueprints!)
+  //run corresponding functions to create employee objects according to user choice
 .then( response => {
     switch(response.role) {
     case "Engineer":
@@ -101,10 +90,9 @@ function addEmployee(){
     case "Intern":
         addIntern();
         break;
+    //if user chooses not to add any more team members, render the created employee objects onto a new output.html page
     case "I do not want to add any more team members":
         console.log(teamMembers);
-        teamMembers = teamMembers.join();
-        teamMembers = teamMembers.replace(/,/g," ");
         fs.writeFile("output.html", render(teamMembers), function(err){
             if (err) {
                 return console.log(err);
@@ -128,18 +116,15 @@ function addEngineer(){
         {
           type: "input",
           message: "What is your engineer's id?",
-          name: "id"
-        //   validate: function (userIdNumber) {    
-        //     if (typeof userIdNumber === number) {
-        //       for (i = 0; i < idNumbers.length; i++){
-        //         id !== idNumbers[i];
-        //         return true;
-        //       }
-        //     } else {
-        //         console.log("Please make sure your id is a number and has not been taken already.")
-        //         return false;
-        //     }
-        // }
+          name: "id",
+          validate: function (userIdNumber) {    
+            console.log(idNumbers);
+            console.log(userIdNumber);
+              const taken = idNumbers[userIdNumber];
+              console.log("is taken: " + taken);
+              console.log("This id is invalid, please make sure the id is correct.")
+              return !taken;
+        }
     
         },
         {
@@ -164,15 +149,15 @@ function addEngineer(){
           name: "github"
         }
       ])
-    // and to create objects for each team member (using the correct classes as blueprints!)
     .then( response => {
         const engineer = new Engineer(response.name, response.id, response.email, response.github);
-        teamMembers.push(engineer);
-        idNumbers.push(response.id);
         console.log("Engineer successfully added!")
+        //push the created engineer object into the teamMembers array
+        teamMembers.push(engineer);
+        idNumbers[response.id]=true;
+        //ask if user wantes to add another employee
         addEmployee();
-      });
-    
+      })
 }
 
 //function to build an intern
@@ -187,16 +172,25 @@ function addIntern(){
       {
         type: "input",
         message: "What is your intern's id?",
-        name: "id"
-      },
+        name: "id",
+        //id validation
+        validate: function (userIdNumber) {    
+          console.log(idNumbers);
+          console.log(userIdNumber);
+            const taken = idNumbers[userIdNumber];
+            console.log("is taken: " + taken);
+            console.log("This id is invalid, please make sure the id is correct.")
+            return !taken;
+
+      }
+    },
       {
         type: "input",
         message: "What is your intern's email?",
         name: "email",
+        //email validation
         validate: function (email) {
-  
           valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
-  
           if (valid) {
               return true;
           } else {
@@ -204,7 +198,6 @@ function addIntern(){
               return false;
           }
       }
-  
       },
       {
         type: "input",
@@ -212,12 +205,12 @@ function addIntern(){
         name: "school"
       }
     ])
-  // and to create objects for each team member (using the correct classes as blueprints!)
   .then( response => {
       const intern = new Intern(response.name, response.id, response.email, response.school);
-      teamMembers.push(intern);
-      idNumbers.push(response.id);
       console.log("Intern successfully added!");
+      //push the newly created intern into the teamMembers array
+      teamMembers.push(intern);
+      idNumbers[response.id]=true;
       addEmployee();
     });
 
