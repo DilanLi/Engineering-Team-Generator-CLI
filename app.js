@@ -92,12 +92,13 @@ function addEmployee(){
         break;
     //if user chooses not to add any more team members, render the created employee objects onto a new output.html page
     case "I do not want to add any more team members":
-        console.log(teamMembers);
+        // console.log(teamMembers);
         fs.writeFile("output.html", render(teamMembers), function(err){
             if (err) {
                 return console.log(err);
               }            
         });
+        console.log("Your team has been generated under a new output.html file, open to see your team.")
         break;
     }
   });
@@ -118,11 +119,13 @@ function addEngineer(){
           message: "What is your engineer's id?",
           name: "id",
           validate: function (userIdNumber) {    
-            console.log(idNumbers);
-            console.log(userIdNumber);
+            // console.log(idNumbers);
+            // console.log(userIdNumber);
               const taken = idNumbers[userIdNumber];
-              console.log("is taken: " + taken);
-              console.log("This id is invalid, please make sure the id is correct.")
+              // console.log("is taken: " + taken);
+              if (taken === true){
+                console.log("  This id is already taken, please make sure the id is correct.")
+              }
               return !taken;
         }
     
@@ -175,13 +178,14 @@ function addIntern(){
         name: "id",
         //id validation
         validate: function (userIdNumber) {    
-          console.log(idNumbers);
-          console.log(userIdNumber);
+          // console.log(idNumbers);
+          // console.log(userIdNumber);
             const taken = idNumbers[userIdNumber];
-            console.log("is taken: " + taken);
-            console.log("This id is invalid, please make sure the id is correct.")
+            // console.log("is taken: " + taken);
+            if (taken === true) {
+              console.log("  This id is already taken, please make sure the id is correct.")
+            }
             return !taken;
-
       }
     },
       {
@@ -194,7 +198,7 @@ function addIntern(){
           if (valid) {
               return true;
           } else {
-              console.log(".  Please enter a valid email")
+              console.log("  Please enter a valid email")
               return false;
           }
       }
