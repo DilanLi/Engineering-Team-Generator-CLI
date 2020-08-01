@@ -1,7 +1,7 @@
 # Engineering-Team-Generator-CLI
 
 ## Description
-The Engineering Team Generator is a command line app that helps companies to display their employee information in a systematic and visual manner. The user will be able to enter individual employee information such as name, id, email, etc. They can also enter as many employees as they want. Upon finishing entering employee information, all recorded info will be generated onto a html under a nicely formatted card display.  
+The Engineering Team Generator is a command line app that helps companies display their employee information in a systematic and visual manner. The user will be able to enter individual employee information such as name, id, email, etc. They can also enter as many employees as they want. Upon finishing entering employee information, all recorded info will be generated onto a html under a nicely formatted card display.  
 
 
 
